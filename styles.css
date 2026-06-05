@@ -1,0 +1,746 @@
+﻿/* =========================================================
+   CBL:LOL Npay Summer Cup — Event Page Styles
+   ----------------------------------------------------------
+   구조:
+   1. Design Tokens (색상, 폰트 등)
+   2. Reset & Base
+   3. Layout (page, grid)
+   4. Responsive (tablet / mobile)
+   5. Typography
+   6. Background field
+   7. Hero (Full-bleed Key Visual)
+   8. Right Rail Navigation
+   9. Components (button, pill, card, etc.)
+   10. Sections
+   11. Animations
+   ========================================================= */
+
+/* ---------- 1. Design Tokens ---------- */
+:root {
+  --bg-0: #04060f;
+  --bg-1: #0a0f24;
+  --bg-2: #111738;
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.16);
+  --text: #ffffff;
+  --muted: #8a93b3;
+  --muted-2: #5a6184;
+  --green: #00dd64;
+  --green-soft: #14ff7a;
+  --green-deep: #00a84d;
+  --blue: #2a7bff;
+  --blue-deep: #1a3fa8;
+  --gold: #ffc857;
+  --silver: #c8d3e2;
+  --bronze: #d18a4e;
+}
+
+/* ---------- 2. Reset & Base ---------- */
+
+.title-text {
+  /* 한글 단어가 띄어쓰기 기준으로만 잘리도록 설정 */
+  word-break: keep-all; }
+
+* { box-sizing: border-box; }
+html, body {
+  
+  margin: 0; padding: 0;
+  background: var(--bg-0); color: var(--text);
+  font-family: 'Pretendard', -apple-system, sans-serif;
+}
+body { overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; }
+::selection { background: var(--green); color: #000; }
+
+.mono { font-family: 'JetBrains Mono', monospace; }
+.display { font-family: 'Oswald', 'Pretendard', sans-serif; letter-spacing: 0.02em; }
+.num { font-family: 'Oswald', sans-serif; font-weight: 700; }
+
+/* ---------- 3. Layout ---------- */
+.page {
+  width: 100%; max-width: 1280px;
+  margin: 0 auto; padding: 0 24px;
+  position: relative;
+}
+@media (max-width: 600px) { .page { padding: 0 16px; } }
+
+.container { position: relative; z-index: 1; }
+
+.section { padding: 120px 0; position: relative; }
+.section-head { margin-bottom: 64px; }
+
+/* Responsive grid helpers */
+.r-hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center; }
+.r-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; }
+.r-steps { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+.r-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.r-3-tight { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.r-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.r-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.r-pay { display: grid; grid-template-columns: 1fr 280px; align-items: stretch; }
+.r-tip { display: grid; grid-template-columns: 1fr 200px; gap: 24px; align-items: center; }
+.r-fine { display: grid; grid-template-columns: 120px 1fr; gap: 24px; }
+.r-date {
+  display: flex; align-items: stretch; gap: 0;
+  border: 1px solid var(--line); border-radius: 16px;
+  overflow: hidden;
+  background: rgba(10,15,36,0.5);
+  backdrop-filter: blur(8px);
+}
+.r-date > .cell { flex: 1; padding: 20px 24px; }
+.r-date > .divider-v { width: 1px; background: var(--line); }
+.r-date > .countdown {
+  width: 200px; padding: 20px 24px;
+  background: rgba(0,221,100,0.08);
+  border-left: 1px solid rgba(0,221,100,0.2);
+}
+.r-podium {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 24px; margin-bottom: 40px;
+  position: relative; flex-wrap: wrap;
+}
+.r-podium > div { flex: 0 0 280px; max-width: 280px; }
+
+/* ---------- 4. Responsive ---------- */
+/* tablet ≤ 1024 */
+@media (max-width: 1024px) {
+  .r-hero { grid-template-columns: 1fr; gap: 40px; }
+  .r-steps { grid-template-columns: 1fr; }
+  .r-pay { grid-template-columns: 1fr; }
+  .r-pay > .pay-right {
+    grid-column: 1 / -1;
+    border-left: none !important;
+    border-top: 1px solid var(--line);
+  }
+  .r-5 { grid-template-columns: repeat(3, 1fr); }
+  .rail { display: none; }
+  .hero-section { min-height: 0; }
+  .hero-bg img { object-position: 50% 22%; }
+  .hero-bg-overlay {
+    background: linear-gradient(180deg,
+      rgba(4,6,15,0.4) 0%, rgba(4,6,15,0.4) 30%,
+      rgba(4,6,15,0.85) 55%, var(--bg-0) 78%);
+  }
+  .hero-spacer { min-height: 420px; order: -1; }
+}
+
+/* mobile ≤ 767 */
+@media (max-width: 767px) {
+  .r-head { grid-template-columns: 1fr; gap: 16px; }
+  .r-head .head-counter { display: none; }
+  .r-3, .r-3-tight, .r-2 { grid-template-columns: 1fr; }
+  .r-5 { grid-template-columns: repeat(2, 1fr); }
+  .r-pay { grid-template-columns: 1fr; }
+  .r-pay > .pay-mid { border-left: none !important; }
+  .r-tip { grid-template-columns: 1fr; }
+  .r-fine { grid-template-columns: 1fr; gap: 12px; }
+  .r-date { flex-direction: column; }
+  .r-date > .divider-v { display: none; }
+  .r-date > .countdown {
+    width: 100%; border-left: none;
+    border-top: 1px solid rgba(0,221,100,0.2);
+  }
+  .r-podium { gap: 12px; }
+  .r-podium > div { flex: 1 1 100%; max-width: 100%; }
+  .r-podium > div .podium-bar { height: 180px !important; }
+  .mission-note { grid-column: 1 !important; margin-top: 16px !important; font-size: 15px !important; }
+  .section { padding: 72px 0; }
+  .section-head { margin-bottom: 40px; }
+  .hero-bg img { object-position: 50% 18%; }
+  .hero-bg-overlay {
+    background: linear-gradient(180deg,
+      rgba(4,6,15,0.4) 0%, rgba(4,6,15,0.5) 35%,
+      rgba(4,6,15,0.9) 58%, var(--bg-0) 78%);
+  }
+  .hero-spacer { min-height: 320px; }
+  .btn-cta { padding: 16px 32px; font-size: 16px; }
+  .btn-cta .arrow { width: 24px; height: 24px; }
+}
+
+/* mobile ≤ 767 — show full key visual uncropped, text below */
+@media (max-width: 767px) {
+  .hero-section { min-height: 0; padding: 0 0 56px; }
+  /* keep the key visual out of document flow so text spacing won't shift it */
+  .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-bg picture { display:block; width:100%; height:auto; }
+  .hero-bg img { width: 100%; height: auto; object-fit: contain; object-position: center top; }
+  .hero-bg-overlay { display: none; }
+  .hero-spacer { display: none; }
+  
+  .hero-body .marquee-bar { margin-top: 40px; }
+}
+
+/* mobile 600px~767px — keep image at natural/max width, avoid upscaling */
+@media (min-width: 600px) and (max-width: 767px) {
+  .hero-bg picture { width: auto; height: auto; }
+  .hero-bg img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    object-fit: none;
+    object-position: center center;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+/* Mobile — center content and CTAs */
+@media (max-width: 767px) {
+  /* make page text center-aligned by default */
+  
+
+  /* ensure hero/topbar stacks and centers (override inline flex) */
+  .hero-body > div[style], .hero-body > div { display: block !important; margin-left: auto !important; margin-right: auto !important; }
+
+  /* center common layout blocks */
+  .section-head, .r-hero, .r-steps, .r-3, .r-3-tight, .r-2, .r-pay, .r-tip, .r-fine, .r-podium { text-align: center; justify-content: center !important; }
+
+  /* date strip and countdown center */
+  .r-date { flex-direction: column !important; align-items: center !important; }
+  .r-date > .cell, .r-date > .countdown { margin: 0 auto; text-align: center; }
+
+  /* center hero copy on mobile */
+  .hero-body .lead { text-align: center !important; margin-left: auto !important; margin-right: auto !important; }
+
+  /* center primary CTAs and make them not stretch */
+  .btn-cta { margin: 24px auto 0 !important; display: inline-flex !important; }
+
+  /* center tabs */
+  .tab-strip, .join-tabs { justify-content: center !important; display: flex !important; }
+  .tab-strip { margin: 0 auto !important; }
+
+  /* center step rows content */
+  .step-row { justify-content: center !important; }
+  .step-row > div { text-align: left !important; }
+  
+  /* Bonus box: stack and center content on mobile */
+  .bonus-box { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+  .bonus-box > div { width: 100%; }
+  .bonus-box > div:last-child { display: flex !important; justify-content: center !important; gap: 10px; }
+  
+}
+
+/* Mobile: stack TIP cards image above text in .r-2 */
+@media (max-width: 767px) {
+  .r-2 .card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 12px !important;
+  }
+
+  .r-2 .card > div:first-child {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 0 12px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .r-2 .card > div:first-child img {
+    display: block !important;
+    max-width: 300px !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  .r-2 .card > div:last-child {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
+
+/* ---------- 5. Typography ---------- */
+.h1 { font-size: clamp(40px, 11.2vw, 88px); font-weight: 900; line-height: 0.95; letter-spacing: -0.02em; }
+.h2 { font-size: clamp(40px, 8.2vw, 56px); font-weight: 900;  letter-spacing: -0.02em; }
+.h3 { font-size: clamp(22px, 2.4vw, 28px); font-weight: 800; line-height: 1.2; }
+.lead { word-break: keep-all; color: var(--muted); font-size: clamp(20px, 1.4vw, 16px); line-height: 1.6; }
+/* 한 줄 유지 리드 — 좁은 화면에선 줄바꿈 허용 */
+@media (max-width: 1100px) {
+  .nowrap-lead { white-space: normal !important; }
+}
+.eyebrow { color: var(--green); font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.section-label { font-size: 11px; letter-spacing: 0.24em; color: var(--muted-2); }
+.glow-text {
+  text-shadow:
+    0 0 30px rgba(0,221,100,0.4),
+    0 0 80px rgba(0,221,100,0.2);
+}
+
+/* ---------- 6. Background field ---------- */
+.bg-field {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(1200px 800px at 50% -10%, rgba(0,221,100,0.10), transparent 60%),
+    radial-gradient(900px 700px at 80% 20%, rgba(42,123,255,0.10), transparent 60%),
+    radial-gradient(700px 600px at 20% 60%, rgba(42,123,255,0.06), transparent 60%),
+    var(--bg-0);
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%);
+}
+
+/* ---------- 7. Hero — Full-bleed Key Visual ---------- */
+.hero-section {
+  min-height: 880px;
+  display: flex; flex-direction: column;
+  padding: 44px 0 100px;
+  position: relative; overflow: hidden;
+  isolation: isolate;
+}
+.hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero-bg picture { display: block; width: 100%; height: 100%; }
+.hero-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 38% center;
+}
+.hero-bg-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg,
+      var(--bg-0) 0%, rgba(4,6,15,0.92) 18%,
+      rgba(4,6,15,0.6) 35%, rgba(4,6,15,0.2) 55%,
+      transparent 75%),
+    linear-gradient(180deg,
+      rgba(4,6,15,0.6) 0%, transparent 20%,
+      transparent 80%, var(--bg-0) 100%);
+}
+.hero-spacer { min-height: 560px; }
+.hero-body { position: relative; z-index: 2; }
+
+/* Hero — marquee bar */
+.marquee-bar {
+  margin-top: 80px; padding: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex; gap: 60px; align-items: center;
+  white-space: nowrap;
+  animation: marquee 40s linear infinite;
+}
+.marquee-track > .group {
+  display: flex; gap: 60px; align-items: center; flex-shrink: 0;
+}
+.marquee-bar .display { line-height: 1; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- 8. Right Rail Navigation ---------- */
+.rail {
+  position: fixed; top: 50%; right: 24px;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex; flex-direction: column; gap: 8px;
+  width: 200px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+@media (max-width: 1024px) {
+  .rail { display: none !important; }
+}
+.rail.visible { opacity: 1; pointer-events: auto; }
+.rail a {
+  display: block;
+  padding: 14px 16px;
+  text-decoration: none; color: var(--muted);
+  background: rgba(10,15,36,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line); border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  text-align: left;
+  transition: all 0.18s;
+}
+.rail a:hover { color: var(--text); border-color: var(--line-strong); }
+.rail a.active { background: var(--green); color: #000; border-color: var(--green); }
+.rail a small {
+  display: block; font-size: 10px;
+  opacity: 0.6; margin-bottom: 4px;
+  letter-spacing: 0.04em; font-weight: 600;
+}
+.rail a.active small { opacity: 0.8; color: #002a13; }
+.rail .top-btn {
+  margin-top: 8px; padding: 10px;
+  text-align: center; cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--line); color: var(--muted);
+  border-radius: 10px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* ---------- 9. Components ---------- */
+/* Primary CTA */
+.btn-cta {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 22px 56px;
+  background: var(--green); color: #000;
+  border: none; border-radius: 999px;
+  cursor: pointer;
+  font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+  box-shadow: 0 0 0 0 rgba(0,221,100,0.5), 0 20px 50px -10px rgba(0,221,100,0.5);
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 8px rgba(0,221,100,0.18), 0 25px 60px -10px rgba(0,221,100,0.7);
+}
+.btn-cta .arrow {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #000; color: var(--green);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+/* Ghost button */
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 24px;
+  background: transparent; color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px; font-weight: 600;
+  transition: all .15s;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--text);
+}
+
+/* Pill tag */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  font-size: 12px; font-weight: 700;
+}
+.pill-green {
+  background: rgba(0,221,100,0.12);
+  color: var(--green);
+  border: 1px solid rgba(0,221,100,0.3);
+}
+.pill-line {
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+}
+
+/* Card */
+.card {
+  background: linear-gradient(180deg, rgba(20,28,60,0.6), rgba(10,15,36,0.6));
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.card-line { border: 1px solid var(--line); border-radius: 18px; }
+
+/* Hover lift */
+.lift { transition: transform .25s ease, border-color .25s ease, background .25s ease; }
+.lift:hover { transform: translateY(-4px); border-color: var(--line-strong); }
+
+/* Image placeholder slot */
+.img-slot {
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 10px, rgba(255,255,255,0.06) 10px 20px),
+    var(--bg-2);
+  border: 1px dashed var(--line-strong);
+  color: var(--muted-2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.04em;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Tabs (segmented control) */
+.tab-strip {
+  display: inline-flex; padding: 4px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 999px; border: 1px solid var(--line);
+}
+.tab-strip button {
+  padding: 10px 20px;
+  border: none; border-radius: 999px;
+  background: transparent; color: var(--muted);
+  font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: all .2s;
+}
+.tab-strip button.active {
+  background: var(--green); color: #000;
+}
+
+/* Tab content swap (used in participation + ranking) */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ===== Premium monthly prize cards ===== */
+.prize-card {
+  position: relative;
+  padding: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.06), transparent 60%),
+    linear-gradient(180deg, rgba(20,28,60,0.7), rgba(8,12,28,0.9));
+  transition: transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s, border-color .3s;
+}
+.prize-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255,255,255,0.28);
+  box-shadow: 0 30px 70px -25px rgba(0,0,0,0.8);
+}
+/* top accent line */
+.prize-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--silver), transparent);
+  opacity: .7;
+}
+/* sheen sweep on hover */
+.prize-card::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; left: -60%;
+  width: 50%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: skewX(-18deg);
+  transition: left .7s ease;
+  pointer-events: none;
+}
+.prize-card:hover::after { left: 130%; }
+
+/* featured (June) — gold/green premium */
+.prize-card.featured {
+  border-color: rgba(255,200,87,0.5);
+  background:
+    radial-gradient(130% 90% at 50% 0%, rgba(255,200,87,0.14), transparent 55%),
+    linear-gradient(180deg, rgba(34,30,16,0.6), rgba(10,12,24,0.92));
+}
+.prize-card.featured::before {
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 1;
+}
+.prize-card.featured:hover {
+  border-color: var(--gold);
+  box-shadow: 0 30px 80px -22px rgba(255,200,87,0.4);
+}
+
+.prize-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px 0;
+}
+.prize-month {
+  display: flex; align-items: baseline; gap: 8px;
+}
+.prize-month .m-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 34px; line-height: 1; color: var(--text);
+  letter-spacing: 0.02em;
+}
+.prize-card.featured .prize-month .m-num { color: var(--gold); }
+.prize-month .m-en {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 0.24em; color: var(--muted);
+}
+.prize-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border-radius: 999px;
+  font-size: 11px; font-weight: 800; letter-spacing: 0.04em;
+  border: 1px solid var(--line-strong); color: var(--muted);
+  background: rgba(255,255,255,0.04);
+}
+.prize-card.featured .prize-tag {
+  border-color: rgba(255,200,87,0.5); color: var(--gold);
+  background: rgba(255,200,87,0.1);
+}
+
+.prize-media {
+  position: relative;
+  aspect-ratio: 4/3;
+  margin: 14px 16px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 18px;
+  background:
+    radial-gradient(70% 70% at 50% 45%, rgba(255,255,255,0.10), transparent 70%),
+    rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+}
+.prize-card.featured .prize-media {
+  background:
+    radial-gradient(70% 70% at 50% 45%, rgba(255,200,87,0.18), transparent 70%),
+    rgba(255,200,87,0.03);
+  border-color: rgba(255,200,87,0.25);
+}
+.prize-media img {
+  max-width: 90%; max-height: 100%; width: auto; height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 30px rgba(0,0,0,0.55));
+}
+
+.prize-foot {
+  padding: 4px 22px 24px;
+}
+.prize-name {
+  font-size: 20px; font-weight: 800; line-height: 1.3; color: var(--text);
+  letter-spacing: -0.01em;
+}
+.prize-sub {
+  margin-top: 6px; font-size: 12px; color: var(--muted);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em;
+}
+@media (max-width: 600px) {
+  .prize-month .m-num { font-size: 28px; }
+  .prize-name { font-size: 18px; }
+}
+
+/* Ensure mobile source image centers both axes under 600px */
+@media (max-width: 600px) {
+  .hero-bg img { object-position: center center !important; }
+}
+
+
+/* Participation tab buttons — segmented control */
+.join-tabs {
+  display: flex;
+  gap: 8px;
+  max-width: 720px;
+  margin: 0 auto 48px;
+  padding: 6px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.tab-large {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 20px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 11px;
+  font-weight: 700; font-size: 15px;
+  cursor: pointer; transition: all .2s;
+  white-space: nowrap;
+}
+.tab-large:hover { color: var(--text); }
+.tab-large .tab-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  font-size: 12px; font-weight: 800;
+  background: rgba(255,255,255,0.08); color: var(--muted);
+  transition: all .2s;
+}
+.tab-large.active-naver {
+  background: var(--green);
+  color: #000;
+  border-color: var(--green);
+  box-shadow: 0 8px 24px -8px rgba(0,221,100,0.5);
+}
+.tab-large.active-pica {
+  background: var(--text);
+  color: #000;
+  border-color: var(--text);
+  box-shadow: 0 8px 24px -8px rgba(255,255,255,0.3);
+}
+.tab-large.active-naver .tab-num,
+.tab-large.active-pica .tab-num {
+  background: rgba(0,0,0,0.18); color: #000;
+}
+@media (max-width: 600px) {
+  .join-tabs { flex-direction: column; }
+  .tab-large { font-size: 14px; padding: 14px 16px; }
+}
+
+/* ---------- 10. Animations ---------- */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.pulse { animation: pulseGlow 2.4s ease-in-out infinite; }
+
+/* ---------- 11. Footer ---------- */
+.footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--line);
+  margin-top: 80px;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 16px;
+}
+
+/* ---------- 12. Step list (ranking participation) ---------- */
+.step-row {
+  display: flex; gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.step-row:last-child { border-bottom: none; }
+.step-num {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: rgba(0,221,100,0.12);
+  border: 1px solid rgba(0,221,100,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.step-num span { font-size: 22px; color: var(--green); }
+.step-title { word-break: keep-all; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.step-desc { word-break: keep-all; font-size: 14px; color: var(--muted); }
+
+/* Participation big steps */
+.bigstep-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #232c54; color: #f6f6f6;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 14px;
+}
+
+/* 참여방법 스텝 텍스트 — 가운데 정렬 */
+#section-participation .r-3 > div { text-align: center; }
+#section-participation .r-3 > div > div:first-child { justify-content: center; }
+
+/* 참여방법 스텝 — 박스는 고정 크기, 이미지만 박스 안에서 스케일 */
+.join-box {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow: hidden;
+}
+.join-shot {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+/* STEP 1 (결제수단 화면) — 박스는 그대로, 이미지만 작게 */
+.join-shot.step1 {
+  max-width: 78%;
+  max-height: 78%;
+}
+
+/* Mobile-only: add top spacing for main h1 with glow to override inline margin */
+.mobile-only { display: none; }
+@media (max-width: 767px) {
+  .h1.glow-text { margin-top: 570px !important; }
+  .mobile-only { display: block; }
+}
